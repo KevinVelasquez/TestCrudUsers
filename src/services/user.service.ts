@@ -1,4 +1,4 @@
-import User, { IUserRegister } from "../models/user.model"
+import User, { IUser, IUserRegister } from "../models/user.model"
 
 export const createUser = async (user: IUserRegister) => {
     //console.log('Service', user)
@@ -11,3 +11,17 @@ export const createUser = async (user: IUserRegister) => {
 
     }
 };
+
+export const findAllUsers = async () => {
+    try {
+        const result = await User.findAll();
+        const mapUsers = result.map(({ dataValues}) => {
+            const { password, ...rest } = dataValues
+            return rest as IUser
+        })
+        return mapUsers
+    } catch (error: any) {
+        console.log(error);
+        throw new Error(error);
+    }
+}
