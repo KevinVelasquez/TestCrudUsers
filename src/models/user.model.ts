@@ -1,6 +1,6 @@
 import db from "../config/db.config"
-import { DataTypes } from "sequelize"
 
+import { DataTypes } from "sequelize";
 export interface IUser {
     id: number
     name: string
@@ -17,6 +17,7 @@ export interface IUserLogin extends Pick<IUserRegister, 'email' | 'password'> {
 
 }
 
+
 const User = db.define('users', {
     name: {
         type: DataTypes.STRING,
@@ -32,19 +33,24 @@ const User = db.define('users', {
     },
     email: {
         type: DataTypes.STRING,
+        unique: true,
         validate: {
             isEmail: true
         }
+
     },
     mobilePhone: {
-        type: DataTypes.STRING,
+        unique: true,
+        type: DataTypes.NUMBER,
         validate: {
             isNumeric: true
         }
+
     },
     password: {
         type: DataTypes.STRING
     }
 })
 
-export default User
+
+export default User; 
