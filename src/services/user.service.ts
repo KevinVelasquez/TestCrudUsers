@@ -1,4 +1,4 @@
-import User, { IUser, IUserRegister } from "../models/user.model"
+import User, { IUser, IUserLogin, IUserRegister } from "../models/user.model"
 
 export const createUser = async (user: IUserRegister) => {
     //console.log('Service', user)
@@ -59,5 +59,22 @@ export const deletedUser = async (id: number) => {
             throw error;
         }
         throw { code: 404, message: 'Invalid data' };
+    }
+};
+
+export const login = async (user: IUserLogin) => {
+    const { email } = user
+    try {
+        const getUser = await User.findOne({
+            where: {
+                email,
+            }
+        })
+        if (!getUser) {
+            throw { code: 404, message: 'user not found' }
+        }
+        return getUser.dataValues as IUserLogin
+    } catch (error) {
+        throw error
     }
 }
