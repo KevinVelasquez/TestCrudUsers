@@ -34,7 +34,7 @@ export const updateUser = async (id: number, user: IUser) => {
         if (!getUser) {
             throw { code: 404, message: 'user not found' }
         }
-         await getUser?.update(user)
+        await getUser?.update(user)
         // console.log(edit)
     } catch (error: any) {
         console.log(error);
@@ -44,3 +44,20 @@ export const updateUser = async (id: number, user: IUser) => {
         throw { code: 400, message: 'Invalid data' }
     }
 };
+
+export const deletedUser = async (id: number) => {
+    try {
+        const getUser = await User.findByPk(id)
+        console.log('User', getUser);
+        if (!getUser) {
+            throw { code: 404, message: 'User not found' };
+        }
+        await getUser.destroy()
+    } catch (error: any) {
+        console.log(error);
+        if (error.code === 404) {
+            throw error;
+        }
+        throw { code: 404, message: 'Invalid data' };
+    }
+}
