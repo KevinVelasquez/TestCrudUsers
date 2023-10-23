@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import bcrypt from 'bcrypt'
 import { IUserRegister } from "../models/user.model"
-import { createUser, findAllUsers } from "../services/user.service"
+import { createUser, findAllUsers, updateUser } from "../services/user.service"
 const SALT_ROUNDS = 8;
 
 export const postUser = async (req: Request, res: Response) => {
@@ -48,8 +48,17 @@ export const getUsers = async (_req: Request, res: Response) => {
 export const patchUser = async (req: Request, res: Response) => {
     const { id } = req.params
     const { body } = req
-    res.status(200).json({
-        status: 200,
-        data: { body, id }
-    })
+    try {
+        await updateUser(+id, body)
+        res.status(200).json({
+            status: 200,
+            data: 'User update successfully'
+        })
+    } catch (error: any) {
+        const { code, message } = error
+        res.status(code).json({
+            status: code,
+            message : message
+        })
+    }
 }

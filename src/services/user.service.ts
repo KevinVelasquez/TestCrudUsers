@@ -15,7 +15,7 @@ export const createUser = async (user: IUserRegister) => {
 export const findAllUsers = async () => {
     try {
         const result = await User.findAll();
-        const mapUsers = result.map(({ dataValues}) => {
+        const mapUsers = result.map(({ dataValues }) => {
             const { password, ...rest } = dataValues
             return rest as IUser
         })
@@ -24,4 +24,23 @@ export const findAllUsers = async () => {
         console.log(error);
         throw new Error(error);
     }
-}
+};
+
+export const updateUser = async (id: number, user: IUser) => {
+    console.log("user tp edit", user)
+    try {
+        const getUser = await User.findByPk(id);
+        // console.log('User', getUser);
+        if (!getUser) {
+            throw { code: 404, message: 'user not found' }
+        }
+         await getUser?.update(user)
+        // console.log(edit)
+    } catch (error: any) {
+        console.log(error);
+        if (error.code === 404) {
+            throw error;
+        }
+        throw { code: 400, message: 'Invalid data' }
+    }
+};
