@@ -62,6 +62,23 @@ export const deletedUser = async (id: number) => {
     }
 };
 
+export const getUserByIdServ = async (id: number) => {
+    try {
+        const getUser = await User.findByPk(id)
+        console.log('User', getUser);
+        if (!getUser) {
+            throw { code: 404, message: 'User not found' };
+        }
+        return getUser.dataValues as IUserRegister;
+    } catch (error: any) {
+        console.log(error);
+        if (error.code === 404) {
+            throw error;
+        }
+        throw { code: 404, message: 'Invalid data' };
+    }
+};
+
 export const login = async (user: IUserLogin) => {
     const { email } = user
     try {

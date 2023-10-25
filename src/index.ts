@@ -2,11 +2,15 @@ import express from 'express';
 import userRouter from './routes/users.routes';
 import authRouter from './routes/auth.routes';
 import db from './config/db.config';
+import cors from 'cors';
 
 
 const app = express();
 app.use(express.json())
-const PORT = 3000
+app.use(cors({
+    origin: '*'
+}))
+const PORT = 3001
 const API_PATH = '/api'
 
 app.get(`${API_PATH}/health`, (_req, res) => {
