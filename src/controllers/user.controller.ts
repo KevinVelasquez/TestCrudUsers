@@ -32,8 +32,8 @@ export const postUser = async (req: Request, res: Response) => {
 export const getUsers = async (_req: Request, res: Response) => {
     try {
         const listUserServ = await findAllUsers()
-        res.status(201).json({
-            status: 201,
+        res.status(200).json({
+            status: 200,
             data: listUserServ
         })
 
